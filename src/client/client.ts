@@ -1,6 +1,7 @@
 import * as THREE from "/build/three.module.js";
 import { OrbitControls } from "/jsm/controls/OrbitControls";
 import Stats from "/jsm/libs/stats.module";
+import { GUI } from "/jsm/libs/dat.gui.module";
 
 const scene: THREE.Scene = new THREE.Scene();
 
@@ -38,6 +39,8 @@ window.addEventListener("resize", () => {
 
 const stats = Stats();
 document.body.appendChild(stats.dom);
+
+const gui = new GUI();
 
 var animate = function () {
   requestAnimationFrame(animate);
