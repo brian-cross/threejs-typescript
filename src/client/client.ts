@@ -17,7 +17,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-// controls.addEventListener("change", render);
+controls.addEventListener("change", render);
 
 const geometry: THREE.BoxGeometry = new THREE.BoxGeometry();
 const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
@@ -34,7 +34,7 @@ window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  // render();
+  render();
 });
 
 const stats = Stats();
@@ -42,22 +42,46 @@ document.body.appendChild(stats.dom);
 
 const gui = new GUI();
 
+const cubeFolder = gui.addFolder("Cube");
+
+const cubeRotationFolder = cubeFolder.addFolder("Rotation");
+cubeRotationFolder.add(cube.rotation, "x", 0, Math.PI * 2, 0.01);
+cubeRotationFolder.add(cube.rotation, "y", 0, Math.PI * 2, 0.01);
+cubeRotationFolder.add(cube.rotation, "z", 0, Math.PI * 2, 0.01);
+
+const cubePositionFolder = cubeFolder.addFolder("Position");
+cubePositionFolder.add(cube.position, "x", -5, 5, 0.1);
+cubePositionFolder.add(cube.position, "y", -5, 5, 0.1);
+cubePositionFolder.add(cube.position, "z", -5, 5, 0.1);
+
+const cubeScaleFolder = cubeFolder.addFolder("Scale");
+cubeScaleFolder.add(cube.scale, "x", 0.1, 5, 0.1);
+cubeScaleFolder.add(cube.scale, "y", 0.1, 5, 0.1);
+cubeScaleFolder.add(cube.scale, "z", 0.1, 5, 0.1);
+
+cubeFolder.open();
+cubeRotationFolder.open();
+cubePositionFolder.open();
+cubeScaleFolder.open();
+
 var animate = function () {
   requestAnimationFrame(animate);
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+  // cube.rotation.x += 0.01;
+  // cube.rotation.y += 0.01;
 
   controls.update();
 
-  renderer.render(scene, camera);
+  render();
 
-  stats.update();
+  // stats.update();
 };
 
-// function render() {
-//   renderer.render(scene, camera);
-// }
+function render() {
+  stats.begin();
+  renderer.render(scene, camera);
+  stats.end();
+}
 
 animate();
 // render();
